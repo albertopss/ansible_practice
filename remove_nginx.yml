@@ -1,0 +1,16 @@
+---
+- name: Uninstall Nginx on Ubuntu servers
+  hosts: all
+  become: yes  # This allows the tasks to be run with root privileges
+
+  tasks:
+    - name: Stop Nginx service
+      service:
+        name: nginx
+        state: stopped
+      ignore_errors: yes  # Ignores errors if nginx is not currently installed or running
+
+    - name: Remove Nginx package
+      package:
+        name: nginx
+        state: absent
