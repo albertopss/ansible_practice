@@ -1,3 +1,9 @@
+[web_servers]
 mictlan
 kripton
 aztlan
+[db_servers]
+kripton
+
+[file_servers]
+mictlan
