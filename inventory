@@ -1,9 +1,14 @@
 [web_servers]
 mictlan
-kripton
+
 aztlan
 [db_servers]
-kripton
+aztlan
 
 [file_servers]
 mictlan
+aztlan
+
+[monitoring_servers]
+kripton
+cosmos

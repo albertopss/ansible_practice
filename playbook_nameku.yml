@@ -1,0 +1,79 @@
+---
+- hosts: all
+  become: yes  # This allows the tasks to be run with root privileges
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+    when: ansible_distribution in ["Ubuntu", "Debian"]
+    
+
+    - name: install updates (CentOS)
+      dnf:
+        update_only: yes
+        update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+- hosts: web_servers
+  become: yes 
+  task:
+
+    - name: Install apache
+      apt:
+        name: 
+          - apache2
+          - libapache2-mod-php
+    
+        state: latest
+    when: ansible_distribution in ["Ubuntu", "Debian"]
+    
+    - name: copy default html fow site
+      tags: apache,httpd
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+
+
+- hosts: db_servers
+  become: yes
+  tasks:
+    
+    - name: Install mariadb for CentOS servers
+      dnf:
+      name: 
+        - mariadb
+      state: latest
+    when: ansible_distribution in ["CentOS"]
+    
+    - name: Install mariadb for Ubuntu servers
+      apt:
+      name:
+        - mariadb
+      state: latest
+    when: ansible_distribution in ["Ubuntu"]
+
+-hosts: monitoring_servers
+ become: yes 
+ tasks:
+    - name: Copy security script to server
+      copy:
+        src: /path/to/your/script.sh  
+        dest: /tmp/script.sh 
+        mode: '0755' 
+
+    - name: Execute script
+      shell: /tmp/script.sh 
+
+- hosts: file_servers
+  become: yes
+  tasks:
+  
+    - name: Install nfs-server
+      package:
+       name: nfs-server
+       state: latest
+      when: absible_distribution in ["CentOS"]
