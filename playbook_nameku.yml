@@ -77,3 +77,19 @@
        name: nfs-server
        state: latest
       when: absible_distribution in ["CentOS"]
+
+- hosts: workstations
+  become : true
+  tasks:
+  - name: install unzip
+  package: 
+      name: unzip
+  
+  - name: install terraform
+    unarchive:
+        src: /path/to/hashicorp/version
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: 0755
+        owner: root
+        group: root

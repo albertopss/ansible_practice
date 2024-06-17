@@ -12,3 +12,7 @@ aztlan
 [monitoring_servers]
 kripton
 cosmos
+
+[workstations]
+cosmos
+
